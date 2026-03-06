@@ -1,25 +1,117 @@
+#include <vector>
 #include <iostream>
-#include "date.h"
-#include "address.h"
+#include <fstream>
+#include <string>
+#include "student.h"
 
-void testAddress();
-void testDate();
+using namespace std;
 
-int main(){
-  std::cout << "Hello!" << std::endl;
-  testAddress();
-  testDate();
-  return 0;
+void loadStudents(vector<Student*>& students);
+void printStudents(vector<Student*>& students);
+void showStudentNames(vector<Student*>& students);
+void findStudent(vector<Student*>& students);
+void delStudents(vector<Student*>& students);
+string menu();
+
+int main() {
+
+    vector<Student*> students;
+
+    loadStudents(students);
+
+    string choice;
+
+    do {
+        choice = menu();
+
+        if (choice == "1") {
+            showStudentNames(students);
+        }
+        else if (choice == "2") {
+            printStudents(students);
+        }
+        else if (choice == "3") {
+            findStudent(students);
+        }
+
+    } while (choice != "0");
+
+    delStudents(students);
+
+    return 0;
 }
 
-void testAddress(){
-  Address a;
-  a.init("123 W Main St", "Muncie", "IN", "47303");
-  a.printAddress();
+void loadStudents(vector<Student*>& students) {
+
+    ifstream file("students.csv");
+    string line;
+
+    while (getline(file, line)) {
+
+        Student* s = new Student(line);
+
+        students.push_back(s);
+    }
+
+    file.close();
 }
 
-void testDate(){
- Date d;
- d.init("01/27/1997");
- d.printDate();
+void printStudents(vector<Student*>& students) {
+
+    for (Student* s : students) {
+        s->print();
+        cout << "____________________________________" << endl;
+    }
+
+}
+
+void showStudentNames(vector<Student*>& students) {
+
+    for (Student* s : students) {
+        cout << s->getLastName() << ", " << s->getFirstName() << endl;
+    }
+
+}
+
+void findStudent(vector<Student*>& students) {
+
+    string name;
+
+    cout << "last name of student: ";
+    cin >> name;
+
+    for (Student* s : students) {
+
+        if (s->getLastName().find(name) != string::npos) {
+
+            s->print();
+            cout << "____________________________________" << endl;
+        }
+    }
+
+}
+
+void delStudents(vector<Student*>& students) {
+
+    for (Student* s : students) {
+        delete s;
+    }
+
+}
+
+string menu() {
+
+    string choice;
+
+    cout << endl;
+    cout << "0) quit" << endl;
+    cout << "1) print all student names" << endl;
+    cout << "2) print all student data" << endl;
+    cout << "3) find a student" << endl;
+    cout << endl;
+    cout << "please choose 0-3: ";
+
+    cin >> choice;
+
+    return choice;
 }

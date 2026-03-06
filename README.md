@@ -1,22 +1,41 @@
-# Student Database Project – Part 1
+# Student Database Project – Part 2
 
 ## Overview
-This week I started building the foundation for a student‑database system. The main goal was to break the data into separate classes so each part of the student information is handled by the class it actually belongs to. For Part 1, I focused on getting the `Address` and `Date` classes fully working and tested through the provided `main.cpp`. The `Student` class will be added next week.
+The program now reads from students.csv, creates a vector of Student*
+    objects, and provides a menu so the user can:
 
+        1) Print all student names
+        2) Print full student data
+        3) Search for a student by last name
+        0) Quit
+
+    All objects (Address, Date, Student) are created on the heap, and the
+    program deletes everything before exiting to avoid memory leaks.
 ## Data Normalization
-To keep the project organized and easier to maintain, it is separated into three classes:
+The project uses three classes, each responsible for its own data:
 
-- **Address**  
-  Stores street, city, state, and ZIP code.  
+    Address:
+        - street
+        - city
+        - state
+        - zip
+        - printAddress()
 
-- **Date**  
-  Stores month, day, and year as integers.  
-  The date comes in as a string (mm/dd/yyyy).
+    Date:
+        - month, day, year
+        - init(string mm/dd/yyyy)
+        - printDate() with month name
 
-- **Student**  
-  Will be added in Part 2.  
+    Student:
+        - firstName, lastName, creditHours
+        - Address* addr
+        - Date* dob
+        - Date* gradDate
+        - init(string line)
+        - print() and printName()
 
-This structure keeps each class focused on one job.
+    This keeps each class focused on one job and makes the program easier
+    to maintain and expand.
 
 ## Algorithms
 
@@ -30,3 +49,11 @@ This structure keeps each class focused on one job.
 ### address::printAddress
 1. Print the street  
 2. Print: `city + " " + state + ", " + zip`  
+
+    - Address class: complete
+    - Date class: complete
+    - Student class: complete
+    - CSV loading: working
+    - Menu system: working
+    - Search feature: working
+    - Memory cleanup: implemented
